@@ -15,6 +15,7 @@ import (
 )
 
 var Input_src = flag.String("src", "", "-src='/tmp/a.png'")
+var Input_mode = flag.String("mode", "lossless_rgba", "-mode=lossless_rgba|lossless_rgb|lossless_gray|rgba90|rgba80|rgba70|rgb90|rgb80|rgb70|gray90|gray80|gray70")
 var Input_dest = flag.String("dest", "", "-dest='/tmp/a.webp'")
 var Input_help = flag.String("help", "", "-src='/tmp/a.png' -dest='/tmp/a.webp'")
 var Input_usage = flag.String("usage", "", "./image2webp -src='/tmp/a.png' -dest='/tmp/a.webp'")
@@ -53,9 +54,34 @@ func Png2Webp(src string, dest string) error {
 	if ok != nil {
 		return ok
 	}
-	webpByte, trans := webp.EncodeLosslessRGBA(pngImg)
-	if trans != nil {
-		return trans
+	webpByte := []byte{}
+	switch *Input_mode {
+	case "lossless_rgba":
+		webpByte, _ = webp.EncodeLosslessRGBA(pngImg)
+	case "lossless_rgb":
+		webpByte, _ = webp.EncodeLosslessRGB(pngImg)
+	case "lossless_gray":
+		webpByte, _ = webp.EncodeLosslessGray(pngImg)
+	case "rgba90":
+		webpByte, _ = webp.EncodeRGBA(pngImg, 90.0)
+	case "rgba80":
+		webpByte, _ = webp.EncodeRGBA(pngImg, 80.0)
+	case "rgba70":
+		webpByte, _ = webp.EncodeRGBA(pngImg, 70.0)
+	case "rgb90":
+		webpByte, _ = webp.EncodeRGB(pngImg, 90.0)
+	case "rgb80":
+		webpByte, _ = webp.EncodeRGB(pngImg, 80.0)
+	case "rgb70":
+		webpByte, _ = webp.EncodeRGB(pngImg, 70.0)
+	case "gray90":
+		webpByte, _ = webp.EncodeGray(pngImg, 90.0)
+	case "gray80":
+		webpByte, _ = webp.EncodeGray(pngImg, 80.0)
+	case "gray70":
+		webpByte, _ = webp.EncodeGray(pngImg, 70.0)
+	default:
+		webpByte, _ = webp.EncodeLosslessRGBA(pngImg)
 	}
 	fileInfo, _ := os.Stat(src)
 	ioutil.WriteFile(dest, webpByte, fileInfo.Mode())
@@ -70,9 +96,34 @@ func Jpeg2Webp(src string, dest string) error {
 	if ok != nil {
 		return ok
 	}
-	webpByte, trans := webp.EncodeLosslessRGBA(jpegImg)
-	if trans != nil {
-		return trans
+	webpByte := []byte{}
+	switch *Input_mode {
+	case "lossless_rgba":
+		webpByte, _ = webp.EncodeLosslessRGBA(jpegImg)
+	case "lossless_rgb":
+		webpByte, _ = webp.EncodeLosslessRGB(jpegImg)
+	case "lossless_gray":
+		webpByte, _ = webp.EncodeLosslessGray(jpegImg)
+	case "rgba90":
+		webpByte, _ = webp.EncodeRGBA(jpegImg, 90.0)
+	case "rgba80":
+		webpByte, _ = webp.EncodeRGBA(jpegImg, 80.0)
+	case "rgba70":
+		webpByte, _ = webp.EncodeRGBA(jpegImg, 70.0)
+	case "rgb90":
+		webpByte, _ = webp.EncodeRGB(jpegImg, 90.0)
+	case "rgb80":
+		webpByte, _ = webp.EncodeRGB(jpegImg, 80.0)
+	case "rgb70":
+		webpByte, _ = webp.EncodeRGB(jpegImg, 70.0)
+	case "gray90":
+		webpByte, _ = webp.EncodeGray(jpegImg, 90.0)
+	case "gray80":
+		webpByte, _ = webp.EncodeGray(jpegImg, 80.0)
+	case "gray70":
+		webpByte, _ = webp.EncodeGray(jpegImg, 70.0)
+	default:
+		webpByte, _ = webp.EncodeLosslessRGBA(jpegImg)
 	}
 	fileInfo, _ := os.Stat(src)
 	ioutil.WriteFile(dest, webpByte, fileInfo.Mode())
